@@ -1,3 +1,15 @@
+############################################################
+# HTBot
+# Lead: Jack "Cylent Knight" Lambert
+# Contributors: Nate Singer
+# Description: A discord bot for groups centered around HTB
+# The bot acts as a local group scoring server.
+#############################################################
+#
+#   Box specific actions
+#
+#############################################################
+
 import discord
 import sqlite3
 from datetime import datetime
@@ -126,9 +138,14 @@ def pwn(plat, bname, uname, flag_type):
     if query is None:
         return("```That box has not been added```")
     is_active = False
+    is_challenge = False
 
     if query[2] == "Active":
         is_active = True
+    elif query[2] == "Challenge":
+        is_active = True
+        is_challenge = True
+        flag_type = "Root"
 
     is_first = False
 
@@ -144,6 +161,9 @@ def pwn(plat, bname, uname, flag_type):
         return("```That user hasn't registered yet!```")
 
     action_type = f"got{flag_type}"
+    if is_challenge:
+        action_type = "gotChallenge"
+
     if action_type == "gotUser":
         flag_field = "userFlags"
     else:
@@ -172,7 +192,7 @@ def pwn(plat, bname, uname, flag_type):
     conn.close()
     r = "```"
     r += announce(uname, action_type, bname)
-    if is_first:
+    if is_first and not is_challenge:
         r += "\n"
         r += announce(uname, "firstBlood", bname)
     r += "```"

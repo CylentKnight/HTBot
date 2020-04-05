@@ -1,3 +1,16 @@
+############################################################
+# HTBot
+# Lead: Jack "Cylent Knight" Lambert
+# Contributors: Nate Singer
+# Description: A discord bot for groups centered around HTB
+# The bot acts as a local group scoring server.
+#############################################################
+#
+#   Edit the discord_key and htb_key then run this file
+#   first to create the baseline db.
+#
+#############################################################
+
 import sqlite3
 
 discord_key = 'ENTER DISCORD API KEY HERE'
@@ -61,24 +74,21 @@ conn.commit()
 c.execute("""CREATE TABLE actions (
     name text,
     points int,
+    message text
     description text)
 """)
 conn.commit()
 
-c.execute("""INSERT INTO actions (name, points, description)
+c.execute("""INSERT INTO actions (name, points, message, description)
                     VALUES
-                        ('registered', 5, 'has registered'),
-                        ('giveCheers', 1, 'raised his glass for'),
-                        ('gotCheers, 5, 'received cheers from'),
-                        ('firstBlood', 10, 'got first blood on'),
-                        ('gotUser', 10, 'slayed the user on'),
-                        ('gotRoot', 10, 'crushed root on'),
-                        ('eventHost', 50, 'hosted an event),
-                        ('eventAttend, 5, 'attended an event'),
-                        ('beerBrought', 1, 'brought some beer to an event'),
-                        ('beerBought', 3, 'bought themselves a beer'),
-                        ('beerShare', 4, 'bought a beer for a friend'),
-                        ('gotChallenge', 5, 'completed the htb challenge')""")
+                        ('registered', 5, 'has registered', 'Register with the bot'),
+                        ('giveCheers', 1, 'raised his glass for', 'Give cheers to another member'),
+                        ('gotCheers, 5, 'received cheers from', 'Receive cheers from another member'),
+                        ('firstBlood', 10, 'got first blood on', 'Be the first member to earn a flag'),
+                        ('gotUser', 10, 'slayed the user on', 'Get a user flag'),
+                        ('gotRoot', 10, 'crushed root on', 'Get a root flag'),
+                        ('gotChallenge', 5, 'completed the htb challenge', 'Get a challenge flag'),
+                        ('donate', 2, 'has donated to the group', 'Donate money to the group')""")
 
 c.execute("""CREATE TABLE secret (
     platform text,

@@ -1,3 +1,15 @@
+############################################################
+# HTBot
+# Lead: Jack "Cylent Knight" Lambert
+# Contributors: Nate Singer
+# Description: A discord bot for groups centered around HTB
+# The bot acts as a local group scoring server.
+#############################################################
+#
+#   General Actions which can be performed by @everyone
+#
+#############################################################
+
 import discord
 import sqlite3
 from datetime import datetime
