@@ -11,9 +11,11 @@ conn.close()
 
 client = commands.Bot(command_prefix = '.')
 
+
 @client.command()
 async def load(ctx, extension):
     client.load_extension(f'cogs.{extension}')
+
 
 @client.command()
 async def unload(ctx, extension):
