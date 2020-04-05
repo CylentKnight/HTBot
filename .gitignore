@@ -1,2 +1,3 @@
 # Project exclude paths
-/venv/
+/venv/src/db/htb_db.db
+/venv/src/dbActions.py
