@@ -3,37 +3,35 @@ import sqlite3
 from datetime import datetime
 from discord.ext import commands
 
-class profileActions(commands.Cog):
+
+class ProfileActions(commands.Cog):
     def __init__(self, client):
         self.client = client
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print("profileActions Loaded")
+        print("ProfileActions Loaded")
 
     @commands.command()
     async def register(self, ctx):
         user = str(ctx.author)
-
-        r = newRegister(ctx,user)
+        print(f"INFO: Attempting to register {user}")
+        r = new_register(ctx, user)
         await ctx.send(r)
-
-    @commands.command()
-    async def test(self, ctx, user: discord.Member = None):
-
-        print(user.roles)
+        return
 
     @commands.command()
     async def info(self, ctx, user: discord.Member = None):
         if user is None:
             user = ctx.author
 
-        r = queryField(user, "*")
+        r = query_field(user, "*")
         result = f"```Username: {r[0]}\n"
         result += f"Registered: {r[1]}\n"
         result += f"Name: {r[2]} {r[3]}\n"
         result += f"Chapter: {r[4]}\n"
         result += f"eMail: {r[5]}\n"
+        result += f"HTB: {r[19]}\n"
         result += f"facebook: {r[6]}\n"
         result += f"Twitter:  {r[7]}\n"
         result += f"LinkedIN: {r[8]}\n"
@@ -47,6 +45,7 @@ class profileActions(commands.Cog):
         result += f"All Time Points: {r[16]}\n"
         result += f"Contributions: {r[17]}\n"
         result += "```"
+        print(f"INFO: Full user query by {ctx.author} for {user}")
         await ctx.send(result)
         return
 
@@ -55,23 +54,32 @@ class profileActions(commands.Cog):
         if user is None:
             user = ctx.author
 
-        r = queryField(user, "userName, rank, email, facebook, twitter, linkedIn")
+        r = query_field(user, "userName, rank, email, facebook, twitter, linkedIn, htb")
         result = f"```Username: {r[0]}\n"
         result += f"Rank: {r[1]}\n"
         result += f"email: {r[2]}\n"
+        result += f"HTB: {r[6]}\n"
         result += f"facebook: {r[3]}\n"
         result += f"Twitter: {r[4]}\n"
         result += f"LinkedIN: {r[5]}\n"
         result += "```"
+        print(f"INFO: Social query by {ctx.author} for {user}")
         await ctx.send(result)
         return
 
     @commands.command()
-    async def score(self, ctx, user:discord.Member = None):
+    async def score(self, ctx, user: discord.Member = None):
         if user is None:
             user = ctx.author
 
-        r = queryField(user, "userName, rank, userFlags, rootFlags, challengeFlags, monthlyPoints, yearlyPoints, allTimePoint")
+        r = query_field(user, "userName, "
+                              "rank, "
+                              "userFlags, "
+                              "rootFlags, "
+                              "challengeFlags, "
+                              "monthlyPoints, "
+                              "yearlyPoints, "
+                              "allTimePoint")
         result = f"```Username: {r[0]}\n"
         result += f"Rank: {r[1]}\n"
         result += f"User Flags: {r[2]}\n"
@@ -81,99 +89,99 @@ class profileActions(commands.Cog):
         result += f"This Month\t\tThis Year\t\tAll Time\n"
         result += f"{r[5]}\t\t\t\t\t{r[6]}\t\t\t\t{r[7]}"
         result += "```"
+        print(f"INFO: Score query by {ctx.author} for {user}")
         await ctx.send(result)
         return
 
     @commands.command()
-    async def first(self, ctx, value = None):
+    async def first(self, ctx, value=None):
         user = ctx.author
         if value is None:
-            r = queryField(user, "firstName")
+            r = query_field(user, "firstName")
             await ctx.send(r)
             return
-        r = updateField(user, "firstName", value)
+        r = update_field(user, "firstName", value)
         await ctx.send(r)
 
     @commands.command()
-    async def last(self, ctx, value = None):
+    async def last(self, ctx, value=None):
         user = ctx.author
         if value is None:
-            r = queryField(user, "lastName")
+            r = query_field(user, "lastName")
             await ctx.send(r)
             return
-        r = updateField(user, "lastName", value)
+        r = update_field(user, "lastName", value)
         await ctx.send(r)
 
     @commands.command()
-    async def facebook(self, ctx, value = None):
+    async def facebook(self, ctx, value=None):
         user = ctx.author
         if value is None:
-            r = queryField(user, "facebook")
+            r = query_field(user, "facebook")
             await ctx.send(r)
             return
-        r = updateField(user, "facebook", value)
+        r = update_field(user, "facebook", value)
         await ctx.send(r)
 
     @commands.command()
-    async def linkedin(self, ctx, value = None):
+    async def linkedin(self, ctx, value=None):
         user = ctx.author
         if value is None:
-            r = queryField(user, "linkedin")
+            r = query_field(user, "linkedin")
             await ctx.send(r)
             return
-        r = updateField(user, "linkedin", value)
+        r = update_field(user, "linkedin", value)
         await ctx.send(r)
 
     @commands.command()
-    async def twitter(self, ctx, value = None):
+    async def twitter(self, ctx, value=None):
         user = ctx.author
         if value is None:
-            r = queryField(user, "twitter")
+            r = query_field(user, "twitter")
             await ctx.send(r)
             return
-        r = updateField(user, "twitter", value)
+        r = update_field(user, "twitter", value)
         await ctx.send(r)
 
     @commands.command()
-    async def email(self, ctx, value = None):
+    async def email(self, ctx, value=None):
         user = ctx.author
         if value is None:
-            r = queryField(user, "email")
+            r = query_field(user, "email")
             await ctx.send(r)
             return
-        r = updateField(user, "email", value)
+        r = update_field(user, "email", value)
         await ctx.send(r)
 
     @commands.command()
-    async def htb(self, ctx, value = None):
+    async def htb(self, ctx, value=None):
         user = ctx.author
         if value is None:
-            r = queryField(user, "htb")
+            r = query_field(user, "htb")
             await ctx.send(r)
             return
-        r = updateField(user, "htb", value)
+        r = update_field(user, "htb", value)
         await ctx.send(r)
+
 
 def setup(client):
-    client.add_cog(profileActions(client))
+    client.add_cog(ProfileActions(client))
 
-def newRegister(ctx, uName):
-    #Register a new user
+
+def new_register(ctx, uname):
     now = datetime.now().strftime("%D")
 
-    #Initialize connection to db
     conn = sqlite3.connect('./db/htb_db.db')
     c = conn.cursor()
 
     # Check to make sure the user doesn't already exist
-    print(f"Querying {uName}")
-    c.execute("SELECT * FROM users WHERE userName= ?", (uName,))
+    c.execute("SELECT * FROM users WHERE userName= ?", (uname,))
     check = c.fetchone()
     conn.commit()
     if check is not None:
         # Fail if user exists
         conn.close()
-        print(f"WARNING: Duplicate user attempt for {uName}")
+        print(f"WARNING: Duplicate user attempt for {uname}")
         return "User already exists"
 
     # Create the user entry in the database
@@ -187,53 +195,44 @@ def newRegister(ctx, uName):
     yearlyPoints,
     allTimePoint,
     donate
-    ) VALUES (?,?,0,0,0,0,0,0,0)""", (uName, now))
+    ) VALUES (?,?,0,0,0,0,0,0,0)""", (uname, now))
     conn.commit()
 
     # Check that the user was successfully added to the database
-    c.execute("SELECT * FROM users WHERE userName= ?", (uName,))
+    c.execute("SELECT * FROM users WHERE userName= ?", (uname,))
     sanity = c.fetchone()
     conn.commit()
     conn.close()
     if sanity is None:
         # Send Fail message back
-        print(f"ERROR: Failed to add {uName} to the users db")
+        print(f"ERROR: Failed to add {uname} to the users db")
         return "Something went wrong"
-    print(f"INFO: User, {uName} successfully registered")
-    r = announce(ctx,uName,"registered")
+    print(f"INFO: User, {uname} successfully registered")
+    r = announce(ctx, uname, "registered")
     return r
 
 
-def updateField(uName, field, value):
-    uName = str(uName)
+def update_field(uname, field, value):
+    uname = str(uname)
     conn = sqlite3.connect('./db/htb_db.db')
     c = conn.cursor()
-    c.execute("SELECT * FROM users WHERE userName= ?", (uName,))
+    c.execute("SELECT * FROM users WHERE userName= ?", (uname,))
     check = c.fetchone()
     conn.commit()
     if check is None:
-        # If user isn't registered, then register them
-        a = newRegister(uName)
-        print(f"Auto registered {uName}")
-    print("UPDATE users SET ? = \'?\' WHERE userName= ?", (field,value,uName))
+        # If user isn't registered
+        return (f"```{uname} isn't registered.```")
     # update the desired field
-    c.execute("UPDATE users SET "+ field +" = \'"+ value +"\' WHERE userName= ?", (uName,))
+    c.execute("UPDATE users SET " + field + " = \'" + value + "\' WHERE userName= ?", (uname,))
     conn.commit()
     conn.close()
 
-    # # double check that it took
-    # c.execute("SELECT ? FROM users WHERE userName = ?", (field, uName))
-    # sanity = c.fetchone()
-    # if sanity != value:
-    #     print(f"ERROR: Failed to update {field} for account {uName}. New Value {value}, current {sanity}")
-    #     return "Something went wrong!"
-    # print(f"INFO: {uName} successfully updated their {field}")
-    print(f"{uName} field {field} updated to {value}")
+    print(f"INFO: {uname} field {field} updated to {value}")
     return "Success!"
 
 
-def queryField(uName, field):
-    name = str(uName)
+def query_field(uname, field):
+    name = str(uname)
     conn = sqlite3.connect('./db/htb_db.db')
     c = conn.cursor()
     c.execute("SELECT " + field + " FROM users WHERE userName= ?", (name,))
@@ -242,37 +241,37 @@ def queryField(uName, field):
     conn.close()
     if check is None:
         # Fail if user doesn't exist
-        return "You aren't registered! Type .register to get started!"
+        Print(f"WARNING: Unregistered Query for user {uname} and field {field}")
+        return "Sorry I could find that"
     return check
 
-def announce(ctx, uName, action, affected = ""):
+
+def announce(ctx, uname, action, affected=""):
     now = datetime.now().strftime("%D")
     conn = sqlite3.connect('./db/htb_db.db')
     c = conn.cursor()
     c.execute("SELECT * FROM actions WHERE name= ?", (action,))
-    actionMeta = c.fetchone()
+    actionmeta = c.fetchone()
     conn.commit()
-    if actionMeta is None:
+    if actionmeta is None:
         r = f"Unable to find {action}"
         return r
-    points = actionMeta[1]
+    points = actionmeta[1]
     r = "```"
-    r += f"{uName} {actionMeta[2]} {affected}and received {str(actionMeta[1])} points!"
+    r += f"{uname} {actionmeta[2]} {affected}and received {str(actionmeta[1])} points!"
     r += "```"
 
     conn = sqlite3.connect('./db/htb_db.db')
     c = conn.cursor()
-    c.execute("INSERT INTO activity(dateTime, member, action, affected, result) VALUES (?,?,?,?,?)", (now, uName, action, affected, points))
-    actionMeta = c.fetchone()
+    c.execute("INSERT INTO activity(dateTime, member, action, affected, result) VALUES (?,?,?,?,?)",
+              (now, uname, action, affected, points))
     conn.commit()
     c.execute(f"""UPDATE users 
             SET monthlyPoints = (monthlyPoints + {points}),
             yearlyPoints = (yearlyPoints + {points}),
             allTimePoint = (allTimePoint + {points})
-            WHERE userName= ?""", (uName,))
+            WHERE userName= ?""", (uname,))
     conn.commit()
     conn.close()
 
     return r
-
-
