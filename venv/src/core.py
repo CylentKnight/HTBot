@@ -20,4 +20,3 @@ for filename in os.listdir('./cogs'):
 #async def on_member_join(member):
 #    await channel.general.send(f'Hello, {member}. Please type \'.welcome\' for the official welcome message and rules.')
 
-client.run('Njg0MTU4NDExMzU2NzY2MjA4.Xl2EAA.m5BCOldetx7dz3dTG18uRQjby-4')
