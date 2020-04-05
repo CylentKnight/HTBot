@@ -1,7 +1,9 @@
 import sqlite3
 
-conn = sqlite3.connect('./db/htb_db.db')
+discord_key = 'ENTER DISCORD API KEY HERE'
+htb_key = 'ENTER HTB API KEY HERE'
 
+conn = sqlite3.connect('./db/htb_db.db')
 c = conn.cursor()
 
 c.execute("""CREATE TABLE users (
@@ -26,7 +28,6 @@ c.execute("""CREATE TABLE users (
     cheers integer,
     htb text)
 """)
-
 conn.commit()
 
 c.execute("""CREATE TABLE activity (
@@ -36,18 +37,17 @@ c.execute("""CREATE TABLE activity (
     affected text,
     result)
 """)
-
 conn.commit()
 
 c.execute("""CREATE TABLE boxes (
     platform text,
     name text,
-    userFirstBlood
-    rootFirstBlood
-    userFlags
+    status text,
+    userFirstBlood,
+    rootFirstBlood,
+    userFlags,
     rootFlags)
 """)
-
 conn.commit()
 
 c.execute("""CREATE TABLE badges (
@@ -56,7 +56,6 @@ c.execute("""CREATE TABLE badges (
     description text,
     points integer)
 """)
-
 conn.commit()
 
 c.execute("""CREATE TABLE actions (
@@ -64,7 +63,16 @@ c.execute("""CREATE TABLE actions (
     points int,
     description text)
 """)
+conn.commit()
 
+c.execute("""CREATE TABLE secret (
+    platform text,
+    key text)
+""")
+conn.commit()
+
+c.execute("INSERT INTO secret(platform, key) VALUES('discord', ?)", (discord_key,))
+c.execute("INSERT INTO secret(platform, key) VALUES('htb', ?)", (htb_key,))
 conn.commit()
 
 conn.close()
