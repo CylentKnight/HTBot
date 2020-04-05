@@ -78,7 +78,7 @@ c.execute("""INSERT INTO actions (name, points, description)
                         ('beerBrought', 1, 'brought some beer to an event'),
                         ('beerBought', 3, 'bought themselves a beer'),
                         ('beerShare', 4, 'bought a beer for a friend'),
-                        ('gotChallenge', 10, 'completed the htb challenge')""")
+                        ('gotChallenge', 5, 'completed the htb challenge')""")
 
 c.execute("""CREATE TABLE secret (
     platform text,
