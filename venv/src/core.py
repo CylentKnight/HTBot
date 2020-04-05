@@ -1,6 +1,13 @@
 import discord
 import os
 from discord.ext import commands
+import sqlite3
+
+conn = sqlite3.connect('./db/htb_db.db')
+c = conn.cursor()
+c.execute("SELECT key FROM secret WHERE platform='discord'")
+key = c.fetchone()
+conn.close()
 
 client = commands.Bot(command_prefix = '.')
 
@@ -16,7 +23,4 @@ for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
 
-#@client.event
-#async def on_member_join(member):
-#    await channel.general.send(f'Hello, {member}. Please type \'.welcome\' for the official welcome message and rules.')
-
+client.run(key[0])
