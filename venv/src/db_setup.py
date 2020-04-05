@@ -65,6 +65,21 @@ c.execute("""CREATE TABLE actions (
 """)
 conn.commit()
 
+c.execute("""INSERT INTO actions (name, points, description)
+                    VALUES
+                        ('registered', 5, 'has registered'),
+                        ('giveCheers', 1, 'raised his glass for'),
+                        ('gotCheers, 5, 'received cheers from'),
+                        ('firstBlood', 10, 'got first blood on'),
+                        ('gotUser', 10, 'slayed the user on'),
+                        ('gotRoot', 10, 'crushed root on'),
+                        ('eventHost', 50, 'hosted an event),
+                        ('eventAttend, 5, 'attended an event'),
+                        ('beerBrought', 1, 'brought some beer to an event'),
+                        ('beerBought', 3, 'bought themselves a beer'),
+                        ('beerShare', 4, 'bought a beer for a friend'),
+                        ('gotChallenge', 10, 'completed the htb challenge')""")
+
 c.execute("""CREATE TABLE secret (
     platform text,
     key text)
