@@ -23,37 +23,82 @@ class HnHActions(commands.Cog):
         print("HnHActions Loaded")
 
     @commands.command()
+    @commands.has_permissions(ban_members=True)
     async def bringbeer(self, ctx):
         await ctx.send("This command will be used if someone brings beer to a home event")
         return
 
     @commands.command()
+    @commands.has_permissions(ban_members=True)
     async def buybeer(self, ctx):
         await ctx.send("This command will be used if someone buys a beer at a business hosted event")
         return
 
     @commands.command()
+    @commands.has_permissions(ban_members=True)
     async def sharebeer(self, ctx):
         await ctx.send("This command will be used if someone buys a beer for a friend at a business hosted event")
         return
 
     @commands.command()
+    @commands.has_permissions(ban_members=True)
     async def hosted(self, ctx):
         await ctx.send("This command will be used if someone hosts and event")
         return
 
     @commands.command()
+    @commands.has_permissions(ban_members=True)
     async def attended(self, ctx):
         await ctx.send("This command will be used if someone attends an event")
         return
 
     @commands.command()
+    @commands.has_permissions(ban_members=True)
     async def referral(self, ctx, uname: discord.Member = None):
         if uname is None:
             await ctx.send("USAGE: .referral <username>\nPlease use the name of the user who referred a new member")
             return
         uname = str(uname)
         action = "refer"
+        r = update_activity_db(uname, action)
+        await ctx.send(r)
+        return
+
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def ctf(self, ctx, uname: discord.Member = None):
+        if uname is None:
+            await ctx.send("USAGE: .ctf <member tag>")
+            return
+
+        uname = str(uname)
+        user = check_user(uname)
+
+        if user is None:
+            await ctx.send("I couldn't find that user, are you sure they're registered?")
+            return
+
+        action = "ctf"
+        r = update_activity_db(uname, action)
+        await ctx.send(r)
+        return
+
+    @commands.command()
+    #@commands.has_permissions(administrator=True)
+    @commands.has_permissions(ban_members=True)
+    async def writeup(self, ctx, uname: discord.Member = None):
+        if uname is None:
+            await ctx.send("USAGE: .ctf <member tag>")
+            return
+
+        uname = str(uname)
+        user = check_user(uname)
+
+        if user is None:
+            await ctx.send("I couldn't find that user, are you sure they're registered?")
+            return
+
+        action = "writeup"
         r = update_activity_db(uname, action)
         await ctx.send(r)
         return

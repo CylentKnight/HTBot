@@ -25,6 +25,7 @@ class BoxActions(commands.Cog):
         print("BoxActions Loaded")
 
     @commands.command()
+    @commands.has_permissions(ban_members=True)
     async def htbaddbox(self, ctx, bname=None, status="Active"):
         if bname is None:
             await ctx.send("```You need to give me the name of the new box\n\'.htbaddbox <box name>\'```")
@@ -36,6 +37,7 @@ class BoxActions(commands.Cog):
         return
 
     @commands.command()
+    @commands.has_permissions(ban_members=True)
     async def userflag(self, ctx, user: discord.Member = None, bname=None):
         platform = "HTB"
         user = str(user)
@@ -49,6 +51,7 @@ class BoxActions(commands.Cog):
         return
 
     @commands.command()
+    @commands.has_permissions(ban_members=True)
     async def rootflag(self, ctx, user: discord.Member = None, bname=None):
         platform = "HTB"
         user = str(user)
@@ -61,6 +64,7 @@ class BoxActions(commands.Cog):
         return
 
     @commands.command()
+    @commands.has_permissions(ban_members=True)
     async def challenge(self, ctx, user: discord.Member = None):
         pass
 

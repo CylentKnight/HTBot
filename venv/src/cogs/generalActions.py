@@ -27,10 +27,12 @@ class GeneralActions(commands.Cog):
     @commands.command()
     async def cheers(self, ctx, user: discord.Member = None):
         give = str(ctx.author)
-        user = str(user)
+
         if user is None:
             await ctx.send("You have to tag someone \'.cheers @someone\'")
             return
+
+        user = str(user)
 
         if give == user:
             await ctx.send("I like congratulating myself too sometimes!")
