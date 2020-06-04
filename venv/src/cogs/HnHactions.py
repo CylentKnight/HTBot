@@ -54,6 +54,37 @@ class HnHActions(commands.Cog):
 
     @commands.command()
     @commands.has_permissions(ban_members=True)
+    async def eom(self, ctx):
+        await ctx.send("This command will be used to reset monthly points")
+        return
+
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def eoy(self, ctx):
+        await ctx.send("This command will be used to reset annual points")
+        return
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def gift(self, ctx, uname: discord.Member = None, pts = 0):
+        if uname is None or pts == 0:
+            await ctx.send("USAGE: .gift <tag member> <points>")
+            return
+
+        uname = str(uname)
+
+        user = check_user(uname)
+        if user is None:
+            await ctx.send("I couldn't find that member are they registered?")
+            return
+
+        add_points(uname, pts)
+
+        await ctx.send(f"Awarded {str(pts)} points to {uname}")
+        return
+
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
     async def referral(self, ctx, uname: discord.Member = None):
         if uname is None:
             await ctx.send("USAGE: .referral <username>\nPlease use the name of the user who referred a new member")
